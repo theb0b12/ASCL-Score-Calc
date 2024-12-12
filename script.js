@@ -1,39 +1,64 @@
 // DOM Elements
 const competitionModal = document.getElementById('competition-modal');
 const boulderingForm = document.getElementById('bouldering-form');
-const mixedForm = document.getElementById('mixed-form');
 const resultsSection = document.getElementById('results');
 const totalScoreElement = document.getElementById('total-score');
 const totalPercentElement = document.getElementById('total-percent');
 const routeDetailsElement = document.getElementById('route-details');
 const selectBoulderingButton = document.getElementById('select-bouldering');
-const selectMixedButton = document.getElementById('select-mixed');
+const calculateBoulderingButton = document.getElementById('calculate-bouldering');
 
 // Event Listeners
 selectBoulderingButton.addEventListener('click', () => selectCompetition('bouldering'));
-selectMixedButton.addEventListener('click', () => selectCompetition('mixed'));
-document.getElementById('calculate-bouldering').addEventListener('click', calculateBouldering);
-document.getElementById('calculate-mixed').addEventListener('click', calculateMixed);
+calculateBoulderingButton.addEventListener('click', calculateBouldering);
 
-// Select competition type and display the corresponding form
+// Select competition type
 function selectCompetition(type) {
   competitionModal.classList.add('hidden');
   if (type === 'bouldering') {
     boulderingForm.classList.remove('hidden');
-  } else if (type === 'mixed') {
-    mixedForm.classList.remove('hidden');
+    generateBoulderingInputs();
   }
 }
 
-// Bouldering Competition Logic
+// Generate dropdowns for bouldering routes
+function generateBoulderingInputs() {
+  const boulderingInputs = document.getElementById('bouldering-inputs');
+  boulderingInputs.innerHTML = ''; // Clear any existing inputs
+
+  for (let i = 1; i <= 5; i++) {
+    const div = document.createElement('div');
+    div.className = 'bouldering-route';
+    div.innerHTML = `
+      <label for="boulder-route-${i}">Select Route ${i}:</label>
+      <select id="boulder-route-${i}" class="boulder-route">
+        ${generateRouteOptions()}
+      </select>
+      <label for="boulder-flash-${i}">Flash:</label>
+      <input type="checkbox" id="boulder-flash-${i}" class="boulder-flash">
+    `;
+    boulderingInputs.appendChild(div);
+  }
+}
+
+// Generate route options (1–30)
+function generateRouteOptions() {
+  let options = '';
+  for (let i = 1; i <= 30; i++) {
+    options += `<option value="${i}">Route ${i}</option>`;
+  }
+  return options;
+}
+
+// Calculate Bouldering Score
 function calculateBouldering() {
   let totalScore = 0;
   let scoreList = [];
   const maxScore = 14240; // Maximum possible score for percentage calculation
 
   for (let i = 1; i <= 5; i++) {
-    const routeNumber = i;
-    const flash = confirm(`Did you flash Route ${i}?`);
+    const routeNumber = parseInt(document.getElementById(`boulder-route-${i}`).value, 10);
+    const flash = document.getElementById(`boulder-flash-${i}`).checked;
     const score = (routeNumber * 100) + (flash ? 20 : 0) + routeNumber;
     totalScore += score;
 
@@ -44,33 +69,13 @@ function calculateBouldering() {
   displayResults(totalScore, scoreList, maxScore);
 }
 
-// Mixed Competition Logic
-function calculateMixed() {
-  let totalScore = 0;
-  let scoreList = [];
-  const maxScore = 9931; // Maximum possible score for percentage calculation
+// Display Results
+function displayResults(totalScore, scoreList, maxScore) {
+  const percent = Math.round((totalScore / maxScore) * 10000) / 100;
 
-  // Rope Routes
-  for (let i = 1; i <= 2; i++) {
-    const routeNumber = i;
-    const flash = confirm(`Did you flash Rope Route ${i}?`);
-    const lead = confirm(`Was Rope Route ${i} lead?`);
-    const score = (routeNumber * 100) + (flash ? 20 : 0) + (lead ? 45 : 0) + routeNumber;
-    totalScore += score;
+  totalScoreElement.textContent = totalScore;
+  totalPercentElement.textContent = `${percent}%`;
+  routeDetailsElement.innerHTML = scoreList.map(route => `<li>${route}</li>`).join('');
 
-    scoreList.push(`Rope Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'}, ${lead ? 'Lead' : 'Toprope'} - Score: ${score}`);
-  }
-
-  // Boulder Routes
-  for (let i = 1; i <= 2; i++) {
-    const routeNumber = i;
-    const flash = confirm(`Did you flash Boulder Route ${i}?`);
-    const score = (routeNumber * 100) + (flash ? 20 : 0) + routeNumber;
-    totalScore += score;
-
-    scoreList.push(`Boulder Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'} - Score: ${score}`);
-  }
-
-  // Choice Route
-  const choiceRoute = 1; // Example choice route
-  const flash = confirm('Did you flash the
+  resultsSection.classList.remove('hidden');
+}
