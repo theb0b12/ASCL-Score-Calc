@@ -1,27 +1,24 @@
 // DOM Elements
-const competitionModal = document.getElementById('competition-modal');
 const boulderingForm = document.getElementById('bouldering-form');
 const resultsSection = document.getElementById('results');
 const totalScoreElement = document.getElementById('total-score');
 const totalPercentElement = document.getElementById('total-percent');
 const routeDetailsElement = document.getElementById('route-details');
-const selectBoulderingButton = document.getElementById('select-bouldering');
 const calculateBoulderingButton = document.getElementById('calculate-bouldering');
 
 // Event Listeners
-selectBoulderingButton.addEventListener('click', () => selectCompetition('bouldering'));
 calculateBoulderingButton.addEventListener('click', calculateBouldering);
 
-// Select competition type
-function selectCompetition(type) {
-  competitionModal.classList.add('hidden');
-  if (type === 'bouldering') {
-    boulderingForm.classList.remove('hidden');
-    generateBoulderingInputs();
+// Generate route options for 1–30
+function generateRouteOptions() {
+  let options = '';
+  for (let i = 1; i <= 30; i++) {
+    options += `<option value="${i}">Route ${i}</option>`;
   }
+  return options;
 }
 
-// Generate dropdowns for bouldering routes
+// Generate Bouldering input fields
 function generateBoulderingInputs() {
   const boulderingInputs = document.getElementById('bouldering-inputs');
   boulderingInputs.innerHTML = ''; // Clear any existing inputs
@@ -41,21 +38,13 @@ function generateBoulderingInputs() {
   }
 }
 
-// Generate route options (1–30)
-function generateRouteOptions() {
-  let options = '';
-  for (let i = 1; i <= 30; i++) {
-    options += `<option value="${i}">Route ${i}</option>`;
-  }
-  return options;
-}
-
 // Calculate Bouldering Score
 function calculateBouldering() {
   let totalScore = 0;
   let scoreList = [];
   const maxScore = 14240; // Maximum possible score for percentage calculation
 
+  // Iterate over 5 routes
   for (let i = 1; i <= 5; i++) {
     const routeNumber = parseInt(document.getElementById(`boulder-route-${i}`).value, 10);
     const flash = document.getElementById(`boulder-flash-${i}`).checked;
@@ -79,3 +68,6 @@ function displayResults(totalScore, scoreList, maxScore) {
 
   resultsSection.classList.remove('hidden');
 }
+
+// Initialize Bouldering form
+generateBoulderingInputs();
