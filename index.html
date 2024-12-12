@@ -26,6 +26,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 500px;
+      margin-bottom: 30px;
     }
     .form-section label {
       font-size: 14px;
@@ -76,12 +77,10 @@
   <div id="bouldering-form" class="form-section">
     <h2>Bouldering Competition</h2>
     <form id="bouldering-inputs">
-      <!-- Route Selection Inputs -->
+      <!-- Route Selection Inputs for Bouldering -->
       <div class="route-selection">
         <label for="boulder-route-1">Select Route 1:</label>
-        <select id="boulder-route-1" class="boulder-route">
-          <!-- Options will be dynamically generated -->
-        </select>
+        <select id="boulder-route-1" class="boulder-route"></select>
         <label for="boulder-flash-1">Flash:</label>
         <input type="checkbox" id="boulder-flash-1" class="boulder-flash">
       </div>
@@ -109,12 +108,58 @@
         <label for="boulder-flash-5">Flash:</label>
         <input type="checkbox" id="boulder-flash-5" class="boulder-flash">
       </div>
-      <!-- Calculate Button -->
       <button type="button" id="calculate-bouldering">Calculate Bouldering Score</button>
     </form>
   </div>
 
-  <!-- Results -->
+  <!-- Mixed Comp Form -->
+  <div id="mixed-form" class="form-section">
+    <h2>Mixed Competition</h2>
+    <form id="mixed-inputs">
+      <!-- Rope Route Selection -->
+      <div class="route-selection">
+        <label for="rope-route-1">Select Rope Route 1:</label>
+        <select id="rope-route-1" class="rope-route"></select>
+        <label for="rope-flash-1">Flash:</label>
+        <input type="checkbox" id="rope-flash-1" class="rope-flash">
+        <label for="rope-lead-1">Lead:</label>
+        <input type="checkbox" id="rope-lead-1" class="rope-lead">
+      </div>
+      <div class="route-selection">
+        <label for="rope-route-2">Select Rope Route 2:</label>
+        <select id="rope-route-2" class="rope-route"></select>
+        <label for="rope-flash-2">Flash:</label>
+        <input type="checkbox" id="rope-flash-2" class="rope-flash">
+        <label for="rope-lead-2">Lead:</label>
+        <input type="checkbox" id="rope-lead-2" class="rope-lead">
+      </div>
+      <!-- Boulder Route Selection -->
+      <div class="route-selection">
+        <label for="boulder-route-1-mixed">Select Boulder Route 1:</label>
+        <select id="boulder-route-1-mixed" class="boulder-route"></select>
+        <label for="boulder-flash-1-mixed">Flash:</label>
+        <input type="checkbox" id="boulder-flash-1-mixed" class="boulder-flash">
+      </div>
+      <div class="route-selection">
+        <label for="boulder-route-2-mixed">Select Boulder Route 2:</label>
+        <select id="boulder-route-2-mixed" class="boulder-route"></select>
+        <label for="boulder-flash-2-mixed">Flash:</label>
+        <input type="checkbox" id="boulder-flash-2-mixed" class="boulder-flash">
+      </div>
+      <!-- Choice Route Selection -->
+      <div class="route-selection">
+        <label for="choice-route">Select Choice Route:</label>
+        <select id="choice-route" class="choice-route"></select>
+        <label for="choice-flash">Flash:</label>
+        <input type="checkbox" id="choice-flash" class="choice-flash">
+        <label for="choice-lead">Lead:</label>
+        <input type="checkbox" id="choice-lead" class="choice-lead">
+      </div>
+      <button type="button" id="calculate-mixed">Calculate Mixed Score</button>
+    </form>
+  </div>
+
+  <!-- Results Section -->
   <div id="results" class="hidden">
     <h2>Results</h2>
     <p>Total Score: <span id="total-score">0</span></p>
@@ -126,6 +171,7 @@
   <script>
     // DOM Elements
     const calculateBoulderingButton = document.getElementById('calculate-bouldering');
+    const calculateMixedButton = document.getElementById('calculate-mixed');
     const resultsSection = document.getElementById('results');
     const totalScoreElement = document.getElementById('total-score');
     const totalPercentElement = document.getElementById('total-percent');
@@ -148,13 +194,23 @@
       });
     }
 
+    // Generate form fields for Mixed Competition (Rope & Boulder)
+    function generateMixedInputs() {
+      const ropeElements = document.querySelectorAll('.rope-route');
+      const choiceRouteElement = document.getElementById('choice-route');
+      ropeElements.forEach((ropeElement) => {
+        ropeElement.innerHTML = generateRouteOptions();
+      });
+      choiceRouteElement.innerHTML = generateRouteOptions();
+    }
+
     // Calculate the Bouldering score
     function calculateBouldering() {
       let totalScore = 0;
       let scoreList = [];
       const maxScore = 14240; // Maximum possible score for percentage calculation
 
-      // Iterate over 5 routes
+      // Iterate over 5 routes for bouldering
       for (let i = 1; i <= 5; i++) {
         const routeNumber = parseInt(document.getElementById(`boulder-route-${i}`).value, 10);
         const flash = document.getElementById(`boulder-flash-${i}`).checked;
@@ -164,6 +220,46 @@
         // Add to score list
         scoreList.push(`Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'} - Score: ${score}`);
       }
+
+      displayResults(totalScore, scoreList, maxScore);
+    }
+
+    // Calculate the Mixed Competition score
+    function calculateMixed() {
+      let totalScore = 0;
+      let scoreList = [];
+      const maxScore = 28560; // Max possible score for mixed comp
+
+      // Rope routes calculation
+      for (let i = 1; i <= 2; i++) {
+        const routeNumber = parseInt(document.getElementById(`rope-route-${i}`).value, 10);
+        const flash = document.getElementById(`rope-flash-${i}`).checked;
+        const lead = document.getElementById(`rope-lead-${i}`).checked;
+        let score = routeNumber * 200;
+        if (flash) score += 40;
+        if (lead) score += 100;
+        totalScore += score;
+        scoreList.push(`Rope Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'}, ${lead ? 'Lead' : 'No Lead'} - Score: ${score}`);
+      }
+
+      // Boulder routes calculation
+      for (let i = 1; i <= 2; i++) {
+        const routeNumber = parseInt(document.getElementById(`boulder-route-${i}-mixed`).value, 10);
+        const flash = document.getElementById(`boulder-flash-${i}-mixed`).checked;
+        const score = routeNumber * 100 + (flash ? 20 : 0);
+        totalScore += score;
+        scoreList.push(`Boulder Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'} - Score: ${score}`);
+      }
+
+      // Choice route calculation
+      const choiceRoute = parseInt(document.getElementById('choice-route').value, 10);
+      const choiceFlash = document.getElementById('choice-flash').checked;
+      const choiceLead = document.getElementById('choice-lead').checked;
+      let choiceScore = choiceRoute * 150;
+      if (choiceFlash) choiceScore += 30;
+      if (choiceLead) choiceScore += 75;
+      totalScore += choiceScore;
+      scoreList.push(`Choice Route ${choiceRoute}: ${choiceFlash ? 'Flash' : 'No Flash'}, ${choiceLead ? 'Lead' : 'No Lead'} - Score: ${choiceScore}`);
 
       displayResults(totalScore, scoreList, maxScore);
     }
@@ -179,11 +275,13 @@
       resultsSection.classList.remove('hidden');
     }
 
-    // Initialize the bouldering form
+    // Initialize the forms
     generateBoulderingInputs();
+    generateMixedInputs();
 
-    // Event Listener for the Calculate button
+    // Event Listeners for Calculate Buttons
     calculateBoulderingButton.addEventListener('click', calculateBouldering);
+    calculateMixedButton.addEventListener('click', calculateMixed);
   </script>
 </body>
 </html>
