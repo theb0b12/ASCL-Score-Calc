@@ -9,15 +9,17 @@
 <body>
   <div class="container">
     <h1>Climbing Competition Score Calculator</h1>
-    <div id="mode-selection">
-      <label for="mode">Select Competition Mode:</label>
-      <select id="mode">
-        <option value="bouldering">Bouldering Competition</option>
-        <option value="mixed">Mixed Competition</option>
-      </select>
+    
+    <!-- Modal for Initial Competition Type Selection -->
+    <div id="competition-modal" class="modal">
+      <div class="modal-content">
+        <h2>Select Competition Type</h2>
+        <button id="select-bouldering">Bouldering Competition</button>
+        <button id="select-mixed">Mixed Competition</button>
+      </div>
     </div>
 
-    <div id="bouldering-form" class="form-section">
+    <div id="bouldering-form" class="form-section hidden">
       <h2>Bouldering Competition</h2>
       <div id="bouldering-inputs">
         <!-- Inputs dynamically added here -->
