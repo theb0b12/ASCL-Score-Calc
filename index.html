@@ -12,9 +12,10 @@
       background-color: #f4f4f9;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      align-items: flex-start;
       flex-direction: column;
+      height: 100vh;
+      overflow-y: auto; /* Ensure full page scroll */
     }
     h1 {
       color: #333;
@@ -26,6 +27,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
       max-width: 500px;
+      margin-bottom: 30px;
     }
     .form-section label {
       font-size: 14px;
@@ -76,12 +78,9 @@
   <div id="bouldering-form" class="form-section">
     <h2>Bouldering Competition</h2>
     <form id="bouldering-inputs">
-      <!-- Route Selection Inputs -->
       <div class="route-selection">
         <label for="boulder-route-1">Select Route 1:</label>
-        <select id="boulder-route-1" class="boulder-route">
-          <!-- Options will be dynamically generated -->
-        </select>
+        <select id="boulder-route-1" class="boulder-route"></select>
         <label for="boulder-flash-1">Flash:</label>
         <input type="checkbox" id="boulder-flash-1" class="boulder-flash">
       </div>
@@ -109,12 +108,55 @@
         <label for="boulder-flash-5">Flash:</label>
         <input type="checkbox" id="boulder-flash-5" class="boulder-flash">
       </div>
-      <!-- Calculate Button -->
       <button type="button" id="calculate-bouldering">Calculate Bouldering Score</button>
     </form>
   </div>
 
-  <!-- Results -->
+  <!-- Mixed Comp Form -->
+  <div id="mixed-form" class="form-section hidden">
+    <h2>Mixed Competition</h2>
+    <form id="mixed-inputs">
+      <div class="route-selection">
+        <label for="rope-route-1">Select Rope Route 1:</label>
+        <select id="rope-route-1" class="rope-route"></select>
+        <label for="rope-flash-1">Flash:</label>
+        <input type="checkbox" id="rope-flash-1" class="rope-flash">
+        <label for="rope-lead-1">Lead:</label>
+        <input type="checkbox" id="rope-lead-1" class="rope-lead">
+      </div>
+      <div class="route-selection">
+        <label for="rope-route-2">Select Rope Route 2:</label>
+        <select id="rope-route-2" class="rope-route"></select>
+        <label for="rope-flash-2">Flash:</label>
+        <input type="checkbox" id="rope-flash-2" class="rope-flash">
+        <label for="rope-lead-2">Lead:</label>
+        <input type="checkbox" id="rope-lead-2" class="rope-lead">
+      </div>
+      <div class="route-selection">
+        <label for="boulder-route-1-mixed">Select Boulder Route 1:</label>
+        <select id="boulder-route-1-mixed" class="boulder-route"></select>
+        <label for="boulder-flash-1-mixed">Flash:</label>
+        <input type="checkbox" id="boulder-flash-1-mixed" class="boulder-flash">
+      </div>
+      <div class="route-selection">
+        <label for="boulder-route-2-mixed">Select Boulder Route 2:</label>
+        <select id="boulder-route-2-mixed" class="boulder-route"></select>
+        <label for="boulder-flash-2-mixed">Flash:</label>
+        <input type="checkbox" id="boulder-flash-2-mixed" class="boulder-flash">
+      </div>
+      <div class="route-selection">
+        <label for="choice-route">Select Choice Route:</label>
+        <select id="choice-route" class="choice-route"></select>
+        <label for="choice-flash">Flash:</label>
+        <input type="checkbox" id="choice-flash" class="choice-flash">
+        <label for="choice-lead">Lead:</label>
+        <input type="checkbox" id="choice-lead" class="choice-lead">
+      </div>
+      <button type="button" id="calculate-mixed">Calculate Mixed Score</button>
+    </form>
+  </div>
+
+  <!-- Results Section -->
   <div id="results" class="hidden">
     <h2>Results</h2>
     <p>Total Score: <span id="total-score">0</span></p>
@@ -125,7 +167,10 @@
 
   <script>
     // DOM Elements
+    const boulderingForm = document.getElementById('bouldering-form');
+    const mixedForm = document.getElementById('mixed-form');
     const calculateBoulderingButton = document.getElementById('calculate-bouldering');
+    const calculateMixedButton = document.getElementById('calculate-mixed');
     const resultsSection = document.getElementById('results');
     const totalScoreElement = document.getElementById('total-score');
     const totalPercentElement = document.getElementById('total-percent');
@@ -135,55 +180,33 @@
     function generateRouteOptions() {
       let options = '';
       for (let i = 1; i <= 30; i++) {
-        options += `<option value="${i}">Route ${i}</option>`;
+        options += `<option value="${i}">${i}</option>`;
       }
       return options;
     }
 
-    // Generate the form fields for selecting routes
-    function generateBoulderingInputs() {
-      const routeElements = document.querySelectorAll('.boulder-route');
-      routeElements.forEach((routeElement) => {
-        routeElement.innerHTML = generateRouteOptions();
-      });
-    }
-
-    // Calculate the Bouldering score
-    function calculateBouldering() {
-      let totalScore = 0;
-      let scoreList = [];
-      const maxScore = 14240; // Maximum possible score for percentage calculation
-
-      // Iterate over 5 routes
-      for (let i = 1; i <= 5; i++) {
-        const routeNumber = parseInt(document.getElementById(`boulder-route-${i}`).value, 10);
-        const flash = document.getElementById(`boulder-flash-${i}`).checked;
-        const score = (routeNumber * 100) + (flash ? 20 : 0) + routeNumber;
-        totalScore += score;
-
-        // Add to score list
-        scoreList.push(`Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'} - Score: ${score}`);
+    // Show the form based on competition type selection
+    const compTypeSelect = document.createElement('select');
+    compTypeSelect.innerHTML = `
+      <option value="bouldering">Bouldering</option>
+      <option value="mixed">Mixed Competition</option>
+    `;
+    compTypeSelect.addEventListener('change', function() {
+      const selectedComp = compTypeSelect.value;
+      if (selectedComp === 'bouldering') {
+        boulderingForm.classList.remove('hidden');
+        mixedForm.classList.add('hidden');
+      } else if (selectedComp === 'mixed') {
+        mixedForm.classList.remove('hidden');
+        boulderingForm.classList.add('hidden');
       }
+    });
+    document.body.insertBefore(compTypeSelect, boulderingForm);
 
-      displayResults(totalScore, scoreList, maxScore);
-    }
-
-    // Display the results
-    function displayResults(totalScore, scoreList, maxScore) {
-      const percent = Math.round((totalScore / maxScore) * 10000) / 100;
-
-      totalScoreElement.textContent = totalScore;
-      totalPercentElement.textContent = `${percent}%`;
-      routeDetailsElement.innerHTML = scoreList.map(route => `<li>${route}</li>`).join('');
-
-      resultsSection.classList.remove('hidden');
-    }
-
-    // Initialize the bouldering form
-    generateBoulderingInputs();
-
-    // Event Listener for the Calculate button
-    calculateBoulderingButton.addEventListener('click', calculateBouldering);
+    // Initial hide of forms
+    boulderingForm.classList.add('hidden');
+    mixedForm.classList.add('hidden');
+    generateRouteOptions();
   </script>
 </body>
 </html>
