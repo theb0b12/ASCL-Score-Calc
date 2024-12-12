@@ -9,24 +9,16 @@
 <body>
   <div class="container">
     <h1>Climbing Competition Score Calculator</h1>
-    
-    <!-- Modal for Initial Competition Type Selection -->
-    <div id="competition-modal" class="modal">
-      <div class="modal-content">
-        <h2>Select Competition Type</h2>
-        <button id="select-bouldering">Bouldering Competition</button>
-        <button id="select-mixed">Mixed Competition</button>
-      </div>
-    </div>
 
-    <div id="bouldering-form" class="form-section hidden">
+    <!-- Bouldering Form -->
+    <div id="bouldering-form" class="form-section">
       <h2>Bouldering Competition</h2>
       <div id="bouldering-inputs">
-        <!-- Inputs dynamically added here -->
+        <!-- Inputs for 5 routes -->
         <div class="bouldering-route" id="route-1">
           <label for="boulder-route-1">Select Route 1:</label>
           <select id="boulder-route-1" class="boulder-route">
-            <!-- Options dynamically generated -->
+            <!-- Options for 1–30 -->
           </select>
           <label for="boulder-flash-1">Flash:</label>
           <input type="checkbox" id="boulder-flash-1" class="boulder-flash">
@@ -35,14 +27,16 @@
       <button id="calculate-bouldering">Calculate Bouldering Score</button>
     </div>
 
+    <!-- Mixed Form (For future functionality) -->
     <div id="mixed-form" class="form-section hidden">
       <h2>Mixed Competition</h2>
       <div id="mixed-inputs">
-        <!-- Inputs dynamically added here -->
+        <!-- Inputs for Mixed Comp -->
       </div>
       <button id="calculate-mixed">Calculate Mixed Score</button>
     </div>
 
+    <!-- Results -->
     <div id="results" class="hidden">
       <h2>Results</h2>
       <p>Total Score: <span id="total-score">0</span></p>
