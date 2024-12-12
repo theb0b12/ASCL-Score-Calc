@@ -1,36 +1,94 @@
-// Elements
-const scoreInput = document.getElementById('score');
-const addScoreButton = document.getElementById('add-score');
+// DOM Elements
+const modeSelector = document.getElementById('mode');
+const boulderingForm = document.getElementById('bouldering-form');
+const mixedForm = document.getElementById('mixed-form');
+const resultsSection = document.getElementById('results');
 const totalScoreElement = document.getElementById('total-score');
-const scoreList = document.getElementById('score-list');
+const totalPercentElement = document.getElementById('total-percent');
+const routeDetailsElement = document.getElementById('route-details');
 
-// Variables
-let scores = [];
+// Event Listeners
+modeSelector.addEventListener('change', switchMode);
+document.getElementById('calculate-bouldering').addEventListener('click', calculateBouldering);
+document.getElementById('calculate-mixed').addEventListener('click', calculateMixed);
 
-// Function to add a score
-addScoreButton.addEventListener('click', () => {
-  const score = parseInt(scoreInput.value);
-  if (!isNaN(score)) {
-    scores.push(score);
-    updateScores();
-    scoreInput.value = '';
-    scoreInput.focus();
+// Switching between modes
+function switchMode() {
+  const mode = modeSelector.value;
+  if (mode === 'bouldering') {
+    boulderingForm.classList.remove('hidden');
+    mixedForm.classList.add('hidden');
   } else {
-    alert('Please enter a valid score.');
+    boulderingForm.classList.add('hidden');
+    mixedForm.classList.remove('hidden');
   }
-});
+}
 
-// Function to update the score display
-function updateScores() {
-  // Calculate total score
-  const totalScore = scores.reduce((acc, score) => acc + score, 0);
+// Bouldering Competition Logic
+function calculateBouldering() {
+  let totalScore = 0;
+  let scoreList = [];
+  const maxScore = 14240; // Maximum possible score for percentage calculation
+
+  for (let i = 1; i <= 5; i++) {
+    const routeNumber = i;
+    const flash = confirm(`Did you flash Route ${i}?`);
+    const score = (routeNumber * 100) + (flash ? 20 : 0) + routeNumber;
+    totalScore += score;
+
+    // Add to score list
+    scoreList.push(`Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'} - Score: ${score}`);
+  }
+
+  displayResults(totalScore, scoreList, maxScore);
+}
+
+// Mixed Competition Logic
+function calculateMixed() {
+  let totalScore = 0;
+  let scoreList = [];
+  const maxScore = 9931; // Maximum possible score for percentage calculation
+
+  // Rope Routes
+  for (let i = 1; i <= 2; i++) {
+    const routeNumber = i;
+    const flash = confirm(`Did you flash Rope Route ${i}?`);
+    const lead = confirm(`Was Rope Route ${i} lead?`);
+    const score = (routeNumber * 100) + (flash ? 20 : 0) + (lead ? 45 : 0) + routeNumber;
+    totalScore += score;
+
+    scoreList.push(`Rope Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'}, ${lead ? 'Lead' : 'Toprope'} - Score: ${score}`);
+  }
+
+  // Boulder Routes
+  for (let i = 1; i <= 2; i++) {
+    const routeNumber = i;
+    const flash = confirm(`Did you flash Boulder Route ${i}?`);
+    const score = (routeNumber * 100) + (flash ? 20 : 0) + routeNumber;
+    totalScore += score;
+
+    scoreList.push(`Boulder Route ${routeNumber}: ${flash ? 'Flash' : 'No Flash'} - Score: ${score}`);
+  }
+
+  // Choice Route
+  const choiceRoute = 1; // Example choice route
+  const flash = confirm('Did you flash the Choice Route?');
+  const lead = confirm('Was the Choice Route lead?');
+  const choiceScore = (choiceRoute * 100) + (flash ? 20 : 0) + (lead ? 45 : 0) + choiceRoute;
+  totalScore += choiceScore;
+
+  scoreList.push(`Choice Route: ${flash ? 'Flash' : 'No Flash'}, ${lead ? 'Lead' : 'Toprope'} - Score: ${choiceScore}`);
+
+  displayResults(totalScore, scoreList, maxScore);
+}
+
+// Display Results
+function displayResults(totalScore, scoreList, maxScore) {
+  const percent = Math.round((totalScore / maxScore) * 10000) / 100;
+
   totalScoreElement.textContent = totalScore;
+  totalPercentElement.textContent = `${percent}%`;
+  routeDetailsElement.innerHTML = scoreList.map(route => `<li>${route}</li>`).join('');
 
-  // Update score list
-  scoreList.innerHTML = '';
-  scores.forEach((score, index) => {
-    const listItem = document.createElement('li');
-    listItem.textContent = `Round ${index + 1}: ${score}`;
-    scoreList.appendChild(listItem);
-  });
+  resultsSection.classList.remove('hidden');
 }
