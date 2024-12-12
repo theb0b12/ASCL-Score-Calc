@@ -9,17 +9,39 @@
 <body>
   <div class="container">
     <h1>Climbing Competition Score Calculator</h1>
-    <div id="score-inputs">
-      <label for="score">Enter Score:</label>
-      <input type="number" id="score" placeholder="Enter score" />
-      <button id="add-score">Add Score</button>
+    <div id="mode-selection">
+      <label for="mode">Select Competition Mode:</label>
+      <select id="mode">
+        <option value="bouldering">Bouldering Competition</option>
+        <option value="mixed">Mixed Competition</option>
+      </select>
     </div>
-    <div id="results">
-      <h2>Total Score: <span id="total-score">0</span></h2>
-      <h3>Score Breakdown:</h3>
-      <ul id="score-list"></ul>
+
+    <div id="bouldering-form" class="form-section">
+      <h2>Bouldering Competition</h2>
+      <div id="bouldering-inputs">
+        <!-- Inputs dynamically added here -->
+      </div>
+      <button id="calculate-bouldering">Calculate Bouldering Score</button>
+    </div>
+
+    <div id="mixed-form" class="form-section hidden">
+      <h2>Mixed Competition</h2>
+      <div id="mixed-inputs">
+        <!-- Inputs dynamically added here -->
+      </div>
+      <button id="calculate-mixed">Calculate Mixed Score</button>
+    </div>
+
+    <div id="results" class="hidden">
+      <h2>Results</h2>
+      <p>Total Score: <span id="total-score">0</span></p>
+      <p>Total Percentage: <span id="total-percent">0%</span></p>
+      <h3>Routes:</h3>
+      <ul id="route-details"></ul>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
