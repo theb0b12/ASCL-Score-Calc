@@ -1,10 +1,30 @@
 :root {
-    --primary-color: #1abc9c; /* Teal */
-    --secondary-color: #3498db; /* Bright Blue */
-    --background-color: #ecf0f1; /* Light Gray */
-    --text-color: #2c3e50; /* Dark Navy */
+    /*blue scene*/
+/*     --primary-color: #1abc9c; 
+    --secondary-color: #3498db;
+    --background-color: #ecf0f1;
+    --text-color: #2c3e50;
     --card-background: #ffffff;
-    --hover-color: #16a085; /* Dark Teal */
+    --hover-color: #16a085; */
+
+    /*amber scene*/
+
+    --primary-color: #d35400; 
+    --secondary-color: #f39c12; 
+    --background-color: #f5d6a8; 
+    --text-color: #34495e; 
+    --card-background: #ffffff;
+    --hover-color: #c0392b; 
+
+    /* Dark Mode Scene*/
+/*     --primary-color: #5e6472; 
+    --secondary-color: #4ecdc4; 
+    --background-color: #292f36; 
+    --text-color: #f7fff7; 
+    --card-background: #353f4b; 
+    --hover-color: #45b7d1;  */
+
+
 }
 
 * {
