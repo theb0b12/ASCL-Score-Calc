@@ -9,20 +9,20 @@
 
     /*amber scene*/
 
-    --primary-color: #d35400; 
+/*     --primary-color: #d35400; 
     --secondary-color: #f39c12; 
     --background-color: #f5d6a8; 
     --text-color: #34495e; 
     --card-background: #ffffff;
-    --hover-color: #c0392b; 
+    --hover-color: #c0392b;  */
 
     /* Dark Mode Scene*/
-/*     --primary-color: #5e6472; 
+    --primary-color: #5e6472; 
     --secondary-color: #4ecdc4; 
     --background-color: #292f36; 
     --text-color: #f7fff7; 
     --card-background: #353f4b; 
-    --hover-color: #45b7d1;  */
+    --hover-color: #45b7d1; 
 
 
 }
@@ -34,6 +34,9 @@
 }
 
 body {
+    /*font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
+    /*font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
+    /*font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
