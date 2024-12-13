@@ -1,41 +1,27 @@
-ASCL Score Calculator
-Overview
-This web application calculates scores for climbing competitions, supporting two competition types:
+# ASCL Score Calculator
 
-Bouldering Competition
-Mixed Competition
+## Overview
+This website calculates scores for American Scholastic Climbing League (ASCL) specific comps.
 
-Features
+- *Bouldering Comps*
+- *Mixed Comps*
 
-Dynamic input form that changes based on competition type
-Scoring calculation for different climbing routes
-Support for flash and lead climbing bonuses
-Percentage-based scoring system
+## 🌟 Features
 
-Bouldering Competition
+### Input Flexibility
+- [x] Dynamic input form
+- [x] Competition type selector
+- [x] Flexible route scoring
 
-5 boulder routes
-Flash bonus points
-Maximum possible score: 14,240 points
+### Scoring Capabilities
+1. **Bouldering Comp**
+   - Tracks up to 5 boulder routes
+   - Includes flash bonus points
+   - *Maximum score*: `14,240` points
 
-Mixed Competition
-
-2 rope routes
-2 boulder routes
-1 choice route
-Bonuses for flash and lead climbing
-Maximum possible score: 9,931 points
-
-How to Use
-
-Select competition type from the dropdown
-Enter route numbers
-Check flash or lead boxes as applicable
-Click "Calculate Score" to see results
-
-Scoring Methodology
-
-Base route points: Route number * 100
-Flash bonus: +20 points
-Lead bonus: +45 points
-Combined flash and lead bonus: +65 points
+2. **Mixed Comp**
+   - Includes:
+     * 2 rope routes
+     * 2 boulder routes
+     * 1 choice route
+   - *Maximum score*: `9,931` points
