@@ -1,4 +1,4 @@
-#ASCL Score Calculator
+ASCL Score Calculator
 Overview
 This web application calculates scores for climbing competitions, supporting two competition types:
 
