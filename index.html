@@ -2,24 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Climbing Competition Score Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Climbing Competition Score Calculator</h1>
-    
-    <div>
-        <label>Competition Type:</label>
-        <select id="compType">
-            <option value="bouldering">Bouldering</option>
-            <option value="mixed">Mixed</option>
-        </select>
+    <div class="container">
+        <h1>Climbing Competition Score Calculator</h1>
+        
+        <div class="competition-selector">
+            <select id="compType">
+                <option value="bouldering">Bouldering Competition</option>
+                <option value="mixed">Mixed Competition</option>
+            </select>
+        </div>
+
+        <form id="inputForm">
+            <!-- Dynamic inputs will be generated here by JavaScript -->
+        </form>
+
+        <button onclick="calculateScore()">Calculate Score</button>
+
+        <div id="results">
+            <!-- Results will be displayed here -->
+        </div>
     </div>
-
-    <div id="inputForm"></div>
-    <button onclick="calculateScore()">Calculate Score</button>
-
-    <div id="results"></div>
 
     <script>
         const compTypeSelect = document.getElementById('compType');
@@ -34,48 +41,65 @@
 
             if (compType === 'bouldering') {
                 for (let i = 1; i <= 5; i++) {
-                    inputForm.innerHTML += `
-                        <div>
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.innerHTML = `
+                        <div class="input-row">
                             <label>Bouldering Route ${i}:</label>
-                            <input type="number" id="route${i}" placeholder="Route Number">
-                            <input type="checkbox" id="flash${i}"> Flash?
+                            <input type="number" id="route${i}" placeholder="Route">
+                            <input type="checkbox" id="flash${i}">
+                            <label for="flash${i}">Flash</label>
                         </div>
                     `;
+                    inputForm.appendChild(inputGroup);
                 }
             } else {
-                // Mixed Competition
-                // 2 Rope Routes
+                // Mixed Competition - Rope Routes
                 for (let i = 1; i <= 2; i++) {
-                    inputForm.innerHTML += `
-                        <div>
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.innerHTML = `
+                        <div class="input-row">
                             <label>Rope Route ${i}:</label>
-                            <input type="number" id="ropeRoute${i}" placeholder="Route Number">
-                            <input type="checkbox" id="ropeFlash${i}"> Flash?
-                            <input type="checkbox" id="ropeLead${i}"> Lead?
+                            <input type="number" id="ropeRoute${i}" placeholder="Route">
+                            <input type="checkbox" id="ropeFlash${i}">
+                            <label for="ropeFlash${i}">Flash</label>
+                            <input type="checkbox" id="ropeLead${i}">
+                            <label for="ropeLead${i}">Lead</label>
                         </div>
                     `;
+                    inputForm.appendChild(inputGroup);
                 }
 
-                // 2 Boulder Routes
+                // Boulder Routes
                 for (let i = 1; i <= 2; i++) {
-                    inputForm.innerHTML += `
-                        <div>
+                    const inputGroup = document.createElement('div');
+                    inputGroup.className = 'input-group';
+                    inputGroup.innerHTML = `
+                        <div class="input-row">
                             <label>Boulder Route ${i}:</label>
-                            <input type="number" id="boulderRoute${i}" placeholder="Route Number">
-                            <input type="checkbox" id="boulderFlash${i}"> Flash?
+                            <input type="number" id="boulderRoute${i}" placeholder="Route">
+                            <input type="checkbox" id="boulderFlash${i}">
+                            <label for="boulderFlash${i}">Flash</label>
                         </div>
                     `;
+                    inputForm.appendChild(inputGroup);
                 }
 
                 // Choice Route
-                inputForm.innerHTML += `
-                    <div>
+                const choiceInputGroup = document.createElement('div');
+                choiceInputGroup.className = 'input-group';
+                choiceInputGroup.innerHTML = `
+                    <div class="input-row">
                         <label>Choice Route:</label>
-                        <input type="number" id="choiceRoute" placeholder="Route Number">
-                        <input type="checkbox" id="choiceFlash"> Flash?
-                        <input type="checkbox" id="choiceLead"> Lead?
+                        <input type="number" id="choiceRoute" placeholder="Route">
+                        <input type="checkbox" id="choiceFlash">
+                        <label for="choiceFlash">Flash</label>
+                        <input type="checkbox" id="choiceLead">
+                        <label for="choiceLead">Lead</label>
                     </div>
                 `;
+                inputForm.appendChild(choiceInputGroup);
             }
         }
 
@@ -86,7 +110,7 @@
 
             if (compType === 'bouldering') {
                 for (let i = 1; i <= 5; i++) {
-                    const routeNumber = parseInt(document.getElementById(`route${i}`).value);
+                    const routeNumber = parseInt(document.getElementById(`route${i}`).value) || 0;
                     const isFlash = document.getElementById(`flash${i}`).checked;
 
                     if (isFlash) {
@@ -110,7 +134,7 @@
             } else {
                 // Mixed Competition - Rope Routes
                 for (let i = 1; i <= 2; i++) {
-                    const routeNumber = parseInt(document.getElementById(`ropeRoute${i}`).value);
+                    const routeNumber = parseInt(document.getElementById(`ropeRoute${i}`).value) || 0;
                     const isFlash = document.getElementById(`ropeFlash${i}`).checked;
                     const isLead = document.getElementById(`ropeLead${i}`).checked;
 
@@ -131,7 +155,7 @@
 
                 // Mixed Competition - Boulder Routes
                 for (let i = 1; i <= 2; i++) {
-                    const routeNumber = parseInt(document.getElementById(`boulderRoute${i}`).value);
+                    const routeNumber = parseInt(document.getElementById(`boulderRoute${i}`).value) || 0;
                     const isFlash = document.getElementById(`boulderFlash${i}`).checked;
 
                     if (isFlash) {
@@ -144,7 +168,7 @@
                 }
 
                 // Mixed Competition - Choice Route
-                const choiceRouteNumber = parseInt(document.getElementById('choiceRoute').value);
+                const choiceRouteNumber = parseInt(document.getElementById('choiceRoute').value) || 0;
                 const isChoiceFlash = document.getElementById('choiceFlash').checked;
                 const isChoiceLead = document.getElementById('choiceLead').checked;
 
