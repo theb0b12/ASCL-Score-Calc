@@ -1,11 +1,11 @@
 :root {
     /*blue scene*/
-/*     --primary-color: #1abc9c; 
+    --primary-color: #1abc9c; 
     --secondary-color: #3498db;
     --background-color: #ecf0f1;
     --text-color: #2c3e50;
     --card-background: #ffffff;
-    --hover-color: #16a085; */
+    --hover-color: #16a085;
 
     /*amber scene*/
 
@@ -17,12 +17,12 @@
     --hover-color: #c0392b;  */
 
     /* Dark Mode Scene*/
-    --primary-color: #5e6472; 
+/*     --primary-color: #5e6472; 
     --secondary-color: #4ecdc4; 
     --background-color: #292f36; 
     --text-color: #f7fff7; 
     --card-background: #353f4b; 
-    --hover-color: #45b7d1; 
+    --hover-color: #45b7d1;  */
 
 
 }
@@ -34,10 +34,10 @@
 }
 
 body {
-    /*font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
-    /*font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /*font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     /*font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;*/
-    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+/*     font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
     background-color: var(--background-color);
     color: var(--text-color);
     line-height: 1.6;
